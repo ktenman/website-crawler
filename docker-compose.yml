@@ -9,6 +9,7 @@ services:
     restart: unless-stopped
 
   rabbitmq:
+    container_name: rabbitmq-container
     image: rabbitmq:3.9-management-alpine
     environment:
       - RABBITMQ_DEFAULT_USER=admin
@@ -17,13 +18,13 @@ services:
       - "5672:5672"
       - "15672:15672"
     volumes:
-      - rabbitmq-data:/var/lib/rabbitmq
+      - rabbitmq-data-dev:/var/lib/rabbitmq
     restart: unless-stopped
     healthcheck:
       test: [ "CMD", "rabbitmqctl", "status" ]
       interval: 5s
-      timeout: 5s
-      retries: 5
+      timeout: 10s
+      retries: 3
 
   kestra:
     image: kestra/kestra:latest-full
@@ -59,10 +60,11 @@ services:
     depends_on:
       - postgres
       - rabbitmq
+      - crawler
     restart: unless-stopped
 
   postgres:
-    image: postgres:14
+    image: postgres:16.3
     environment:
       - POSTGRES_DB=crawler
       - POSTGRES_USER=postgres
@@ -82,10 +84,11 @@ services:
       - ./grafana-provisioning:/etc/grafana/provisioning
       - ./dashboard.json:/var/lib/grafana/dashboards/dashboard.json
     depends_on:
+      - postgres
       - app
     restart: unless-stopped
 
 volumes:
-  rabbitmq-data:
+  rabbitmq-data-dev:
   postgres-data:
   grafana-data:
