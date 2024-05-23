@@ -1,0 +1,7 @@
+FROM kestra/kestra:latest
+
+# Set the required environment variables
+ENV KESTRA_QUEUE_TYPE=amqp
+ENV KESTRA_QUEUES_AMQP_URL=amqp://admin:admin@rabbitmq:5672
+ENV KESTRA_REPOSITORY_TYPE=filesystem
+ENV KESTRA_REPOSITORY_FILESYSTEM_BASEPATH=/app/flows

@@ -1,0 +1,27 @@
+# Use the official Golang image as the base image
+FROM golang:1.20-alpine
+
+# Install Git (required by Go modules)
+RUN apk add --no-cache git
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Initialize a new Go module
+RUN go mod init crawler
+
+# Download the required dependencies
+RUN go get github.com/gocolly/colly
+RUN go get github.com/streadway/amqp
+
+# Copy the entire application code
+COPY . .
+
+# Build the Go application
+RUN go build -o crawler
+
+# Expose a port if needed (not required for this example)
+# EXPOSE 8080
+
+# Set the entry point to run the crawler
+CMD ["./crawler"]
