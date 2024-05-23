@@ -13,7 +13,9 @@ The project consists of the following main components:
    crawling tasks to execute. Once a task is received, the crawler downloads the website data and sends it to the Kotlin
    app for further processing.
 
-2. Keyword Analyzer (Kotlin): This Kotlin application receives the downloaded website data from the crawler through a RabbitMQ queue. It analyzes the data using either Jsoup or the OpenAI GPT-4 language model to extract relevant keywords and their incidence counts. The results are then persisted in a database.
+2. Keyword Analyzer (Kotlin): This Kotlin application receives the downloaded website data from the crawler through a
+   RabbitMQ queue. It analyzes the data using either Jsoup or the OpenAI GPT-4 language model to extract relevant
+   keywords and their incidence counts. The results are then persisted in a database.
 
 3. Task Scheduler (Kotlin): The crawling tasks are scheduled within the Kotlin application. Initially, the goal was to
    use Kestra for task scheduling and send the tasks through a RabbitMQ queue to the crawler. However, due to time
@@ -21,8 +23,8 @@ The project consists of the following main components:
 
 4. Database (Postgres): The analyzed keyword data is stored in a database for further analysis and visualization.
 
-5. Grafana is set up to visualize the keyword data. However, due to time limitations, the integration of the
-   time-based REST endpoint from the Kotlin app with Grafana was not fully completed.
+5. Grafana's integration was done, but setting up the dashboard out of the box with docker-compose up was not completed
+   due to time constraints.
 
 ## Getting Started
 
@@ -46,9 +48,10 @@ To run the project, follow these steps:
 
 ## Time Constraints
 
-The goal was to complete the project within 8 hours. While the core functionality of crawling, keyword analysis, and
-data persistence was implemented, some additional features such as the integration with Kestra for task scheduling and
-the connection of the time-based REST endpoint with Grafana were not fully completed due to the time limitation.
+The goal was to complete the project within 8 hours. The most complicated parts, such as crawling, keyword analysis, and
+data persistence, were successfully implemented. Grafana integration was done, but setting up the dashboard out of the
+box with docker-compose up was not completed due to the time limitation. Additionally, the integration of Kestra for
+task scheduling was not fully implemented due to time constraints.
 
 ## Technologies Used
 
