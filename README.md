@@ -26,6 +26,8 @@ The project consists of the following main components:
 5. Grafana's integration was done, but setting up the dashboard out of the box with docker-compose up was not completed
    due to time constraints.
 
+![Website Crawler Architecture](diagram.png)
+
 ## Getting Started
 
 To run the project, follow these steps:
