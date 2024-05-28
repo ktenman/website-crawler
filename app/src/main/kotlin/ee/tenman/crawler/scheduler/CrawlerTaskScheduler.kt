@@ -16,8 +16,8 @@ class CrawlerTaskScheduler(
     private val objectMapper: ObjectMapper) {
 
     private val log: Logger = LogManager.getLogger(CrawlerTaskScheduler::class.java)
-    
-    @Scheduled(initialDelay = 15_000)
+
+    @Scheduled(initialDelay = 10_000)
     fun scheduleInitialTasks() {
         scheduleCrawlerTasks()
     }
