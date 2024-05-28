@@ -4,7 +4,7 @@ import (
     "encoding/json"
     "fmt"
     "log"
-    "strings"
+    "net/url"
 
     "github.com/gocolly/colly"
     "github.com/gocolly/colly/extensions"
@@ -92,17 +92,11 @@ func main() {
             c := colly.NewCollector(
                 colly.Async(true),
                 colly.MaxDepth(3),
-                colly.MaxBodySize(0),
-                colly.UserAgent("Googlebot/2.1"),
                 colly.MaxBodySize(10*1024*1024),
-                colly.CacheDir(".cache"),
             )
 
             extensions.RandomUserAgent(c)
             extensions.Referer(c)
-
-            // Enable robots.txt support
-            c.IgnoreRobotsTxt = false
 
             c.Limit(&colly.LimitRule{
                 DomainGlob:  "*",
@@ -111,12 +105,15 @@ func main() {
 
             c.OnHTML("a[href]", func(e *colly.HTMLElement) {
                 link := e.Attr("href")
-                if strings.HasPrefix(link, "/") {
-                    // Resolve relative URLs based on the website URL from the task
-                    absoluteURL := fmt.Sprintf("%s%s", task.WebsiteURL, link)
-                    e.Request.Visit(absoluteURL)
-                } else if strings.HasPrefix(link, task.WebsiteURL) {
-                    e.Request.Visit(link)
+                absoluteURL, err := url.Parse(e.Request.AbsoluteURL(link))
+                if err != nil {
+                    log.Printf("Failed to parse URL: %s, error: %v", link, err)
+                    return
+                }
+
+                err = e.Request.Visit(absoluteURL.String())
+                if err != nil {
+                    log.Printf("Failed to visit URL: %s, error: %v", absoluteURL.String(), err)
                 }
             })
 
