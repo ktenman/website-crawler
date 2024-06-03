@@ -1,0 +1,20 @@
+{
+  "rabbit_version": "3.9.0",
+  "rabbitmq_version": "3.9.0",
+  "queues": [
+    {
+      "name": "websites",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "crawler_tasks",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ]
+}
