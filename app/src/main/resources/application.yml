@@ -1,7 +1,6 @@
 server:
   port: 8081
 
-
 spring:
   application:
     name: app
@@ -34,14 +33,14 @@ spring:
     host: ${RABBITMQ_HOST:rabbitmq}
     port: 5672
     username: ${RABBITMQ_USER:admin}
-    password: ${RABBITMQ_PASSWORD:admin}      
+    password: ${RABBITMQ_PASSWORD:admin}
 
   flyway:
     url: ${spring.datasource.url}
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
     enabled: true
-    
+
 logging:
   level:
     root: INFO
@@ -51,8 +50,12 @@ logging:
   pattern:
     console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{20} %X{transactionId}- %msg%n'
     file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{20} %X{transactionId}- %msg%n'
-    
+
 openai:
   enabled: false
   token: <openai-key>
+
+crawler:
+  scheduler:
+    enabled: true
 

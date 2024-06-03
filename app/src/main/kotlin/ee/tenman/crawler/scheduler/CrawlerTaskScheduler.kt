@@ -2,15 +2,16 @@ package ee.tenman.crawler.scheduler
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import ee.tenman.crawler.config.rabbitmq.RabbitMQConstants
-import jakarta.annotation.PostConstruct
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.springframework.amqp.rabbit.core.RabbitTemplate
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
 @Component
+@ConditionalOnProperty(prefix = "crawler.scheduler", name = ["enabled"], havingValue = "true")
 class CrawlerTaskScheduler(
     private val rabbitTemplate: RabbitTemplate,
     private val objectMapper: ObjectMapper) {

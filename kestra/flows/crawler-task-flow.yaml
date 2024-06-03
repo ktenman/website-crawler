@@ -1,0 +1,29 @@
+id: crawler-task-flow
+namespace: io.kestra.crawler
+tasks:
+  - id: send-crawler-task
+    type: io.kestra.plugin.amqp.Publish
+    from:
+      - data: '{{ {"timestamp": now() | date("yyyy-MM-dd HH:mm:ss"), "originator": "Kestra", "websiteUrl": "https://www.theguardian.com/europe"} | json }}'
+        headers:
+          testHeader: KestraTest
+      - data: value-2
+        timestamp: '2023-01-09T08:46:33.115456977Z'
+        appId: unit-kestra
+    routingKey: crawler_tasks
+    exchange: my_exchange
+    host: rabbitmq
+    port: 5672
+    username: admin
+    password: admin
+triggers:
+  - id: every-2-hours
+    type: io.kestra.core.models.triggers.types.Schedule
+    cron: "0 0/2 * * *"
+    backfill:
+      start: 2023-01-01
+  - id: every-hour-on-friday
+    type: io.kestra.core.models.triggers.types.Schedule
+    cron: "0 */1 * * 5"
+    backfill:
+      start: 2023-01-01
